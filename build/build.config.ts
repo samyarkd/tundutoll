@@ -2,7 +2,7 @@
 // This file is used to configure the build process
 // tweeking this file will mess up the build process (but it's not illegal ;))
 
-import { plugin, type BunPlugin } from "bun";
+import { plugin, type BunPlugin } from "bun"
 
 console.time("It Took");
 // The root directory of the project TODO: maybe there is a better way to get the root dir
@@ -18,7 +18,19 @@ const logPrefixPlugin: BunPlugin = {
       const content = await file.text();
       const modifiedContent = content.replace(
         /console\.(.*)\((.*)\)/g,
-        `console.$1('----> ${file.name?.replace(MAIN_ROOT, "")} ::', $2)`,
+        (
+          match: string,
+          method: string,
+          args: string,
+          offset: number,
+          string: string,
+        ): string => {
+          const lineNumber = string.substring(0, offset).split("\n").length;
+          return `console.${method}('----> ${file.name?.replace(
+            MAIN_ROOT,
+            "",
+          )}:${lineNumber} ::', ${args})`;
+        },
       );
       return {
         contents: modifiedContent,
