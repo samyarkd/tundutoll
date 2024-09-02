@@ -2,10 +2,11 @@
 // This file is used to configure the build process
 // tweeking this file will mess up the build process (but it's not illegal ;))
 
-import { plugin, type BunPlugin } from "bun"
+import { plugin, type BunPlugin } from "bun";
 
+console.time("It Took");
 // The root directory of the project TODO: maybe there is a better way to get the root dir
-const MAIN_ROOT = Bun.main.replace('build/build.config.ts', '');
+const MAIN_ROOT = Bun.main.replace("build/build.config.ts", "");
 
 // --- PLUGINS
 
@@ -13,11 +14,11 @@ const logPrefixPlugin: BunPlugin = {
   name: "Log Prefix Plugin",
   setup(build) {
     build.onLoad({ filter: /\.(js|ts|jsx|tsx)$/ }, async ({ path }) => {
-      const file = Bun.file(path)
+      const file = Bun.file(path);
       const content = await file.text();
       const modifiedContent = content.replace(
         /console\.(.*)\((.*)\)/g,
-        `console.$1('----> ${file.name?.replace(MAIN_ROOT, "")} ::', $2)`
+        `console.$1('----> ${file.name?.replace(MAIN_ROOT, "")} ::', $2)`,
       );
       return {
         contents: modifiedContent,
@@ -26,8 +27,6 @@ const logPrefixPlugin: BunPlugin = {
     });
   },
 };
-
-
 
 plugin(logPrefixPlugin);
 
@@ -38,7 +37,7 @@ const buildResult = await Bun.build({
   outdir: "./dist",
   root: "./",
   plugins: [logPrefixPlugin],
-  splitting: true
+  splitting: true,
 });
 
 if (!buildResult.success) {
@@ -47,4 +46,7 @@ if (!buildResult.success) {
     // Bun will pretty print the message object
     console.error(message);
   }
+} else {
+  console.log("🏗  Building was successfull");
+  console.timeEnd("It Took");
 }

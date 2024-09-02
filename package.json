@@ -1,7 +1,8 @@
 {
   "name": "tundutoll",
   "scripts": {
-    "dev": "bun run --hot src/index.ts"
+    "dev": "bun run --hot src/index.ts",
+    "build": "bun run build/build.config.ts"
   },
   "dependencies": {
     "hono": "^4.5.10"
