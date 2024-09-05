@@ -59,6 +59,6 @@ if (!buildResult.success) {
     console.error(message);
   }
 } else {
-  console.log("🏗  Building was successfull");
+  console.info("🏗  Building was successfull");
   console.timeEnd("It Took");
 }
