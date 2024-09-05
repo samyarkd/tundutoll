@@ -3,12 +3,19 @@
   "scripts": {
     "dev": "bun run scripts/dev.ts",
     "build": "bun run scripts/build.ts",
-    "start": "bun run dist/src/index.js"
+    "start": "bun run dist/src/index.js",
+    "format": "bunx prettier --write .",
+    "lint": "bunx eslint src/",
+    "check": "bunx prettier --check . && bunx eslint ."
   },
   "dependencies": {
-    "hono": "^4.5.11"
+    "prettier": "^3.3.3"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@eslint/js": "^10.0.0",
+    "@types/bun": "latest",
+    "@types/eslint__js": "^8.42.3",
+    "eslint": "^9.9.1",
+    "hono": "^4.5.11"
   }
 }
